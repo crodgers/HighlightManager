@@ -1,3 +1,4 @@
+[![Stories in Ready](https://badge.waffle.io/crodgers/HighlightManager.png?label=ready&title=Ready)](https://waffle.io/crodgers/HighlightManager)
 
      ,-----.,--.                  ,--. ,---.   ,--.,------.  ,------.
     '  .--./|  | ,---. ,--.,--. ,-|  || o   \  |  ||  .-.  \ |  .---'
