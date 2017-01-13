@@ -68,18 +68,38 @@ Privacy Policy
 `;
 
 const routes = require('express').Router();
+var highlights = require('./highlights');
+var highlight = require('./highlight');
 
-const highlights = require('./highlights');
-const highlight = require('./highlight');
+function isLoggedIn(req, res, next) {
+        if (req.isAuthenticated())
+            return next();
+        
+        res.redirect('/')
+}
 
+module.exports = (routes, passport) => {
+    routes.get('/', (req, res) => {
+        res.status(200).json(
+        {
+            "user": "this is a message"
+        });
+    });
+    routes.get('/highlights', isLoggedIn, highlights);
+    routes.get('/highlight/:id', isLoggedIn, highlight);
 
-routes.get('/', (req, res) => {
-    res.status(200).json({"message": "this is a message"});
-});
-routes.get('/highlights', highlights);
-routes.get('/highlight/:id', highlight);
-routes.get('/privacy_policy', (req, res) => {
-    res.status(200).json({'policy': policy_string});
-})
+    routes.get('/privacy_policy', (req, res) => {
+        res.status(200).json({'policy': policy_string});
+    });
 
-module.exports = routes
+    routes.get(
+        '/login',
+        passport.authenticate(
+            'amazon',
+            {
+                failureRedirect: '/',
+                successRedirect: '/highlights'
+            }
+        )
+    )
+};

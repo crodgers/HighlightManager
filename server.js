@@ -1,8 +1,9 @@
 const app = require('express')();
+const router = require('express').Router();
 const session = require('express-session');
 const dbStore = require('connect-mongo')(session);
 const mongoose = require('mongoose');
-const routes = require('./routes');
+const passport = require('passport');
 
 //connect to MongoDB
 mongoose.connect(process.env.MONGODB_URI);
@@ -24,8 +25,14 @@ app.use(session({
   saveUninitialized: true
 }));
 
+//configure passport
+require('./config/passport')(passport)
+app.use(passport.initialize());
+app.use(passport.session());
+
 //  Connect all our routes to our application
-app.use('/', routes);
+require('./routes')(router, passport);
+app.use(router);
 
 app.listen(process.env.PORT || 8081, process.env.IP || "0.0.0.0", function(){
   console.log("running");
