@@ -67,22 +67,22 @@ Privacy Policy
   We are committed to conducting our business in accordance with these principles in order to ensure that the confidentiality of personal information is protected and maintained. Neighborhood Software may change this privacy policy from time to time at Neighborhood Software's sole discretion.
 `;
 
-const routes = require('express').Router();
 var highlights = require('./highlights');
 var highlight = require('./highlight');
 
 function isLoggedIn(req, res, next) {
+        console.log("req.isAuthenticated() " + req.isAuthenticated())
         if (req.isAuthenticated())
             return next();
         
-        res.redirect('/')
+        res.redirect('/');
 }
 
 module.exports = (routes, passport) => {
     routes.get('/', (req, res) => {
         res.status(200).json(
         {
-            "user": "this is a message"
+            "message": "root"
         });
     });
     routes.get('/highlights', isLoggedIn, highlights);
@@ -91,15 +91,23 @@ module.exports = (routes, passport) => {
     routes.get('/privacy_policy', (req, res) => {
         res.status(200).json({'policy': policy_string});
     });
+    
+    routes.get(
+      '/amazon/auth/callback', 
+      passport.authenticate('amazon', {failureRedirect: '/'}),    
+      (req, res) => {
+        console.log("at /amazon/auth/callback");
+        res.redirect('/highlights');
+    });
 
     routes.get(
         '/login',
         passport.authenticate(
             'amazon',
-            {
-                failureRedirect: '/',
-                successRedirect: '/highlights'
-            }
-        )
-    )
-};
+            {scope: ['profile']}
+        ),
+        (req, res) => {
+          console.log('the impossible happened');
+        }
+      )
+}

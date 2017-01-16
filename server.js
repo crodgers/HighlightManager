@@ -4,6 +4,7 @@ const session = require('express-session');
 const dbStore = require('connect-mongo')(session);
 const mongoose = require('mongoose');
 const passport = require('passport');
+const morgan = require('morgan');
 
 //connect to MongoDB
 mongoose.connect(process.env.MONGODB_URI);
@@ -25,9 +26,11 @@ app.use(session({
   saveUninitialized: true
 }));
 
+// app.use(morgan('combined'));
+
 //configure passport
-require('./config/passport')(passport)
 app.use(passport.initialize());
+require('./config/passport')(passport);
 app.use(passport.session());
 
 //  Connect all our routes to our application
