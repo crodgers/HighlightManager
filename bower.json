@@ -1,0 +1,30 @@
+{
+  "name": "kindle-highlight-manager",
+  "description": "An app to manage and share highlights created from Kindle books.",
+  "main": "server.js",
+  "authors": [
+    "Christopher Rodgers"
+  ],
+  "license": "MIT",
+  "keywords": [
+    "kindle",
+    "highlight",
+    "manage",
+    "share",
+    "social",
+    "media"
+  ],
+  "homepage": "https://github.com/crodgers/HighlightManager",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "startbootstrap-simple-sidebar": "BlackrockDigital/startbootstrap-simple-sidebar#^3.3.7",
+    "bootstrap": "^3.3.7"
+  }
+}
