@@ -5,7 +5,7 @@
   "description": "An app to manage and share highlights created from Kindle books.",
   "main": "server.js",
   "scripts": {
-    "test": "mocha"
+    "test": "gulp test"
   },
   "repository": "https://github.com/crodgers/HighlightManager",
   "author": "Christopher Rodgers",

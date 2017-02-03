@@ -10,11 +10,37 @@ describe('root route', function () {
     beforeEach(() => {
         server = require('../server');
     });
+
     afterEach((done) => {
         server.close(done);
-    })
-    it('should return 200', (done) => {
-        request(server).get('/').expect(200)
+    });
+
+    it('status code should be 200', (done) => {
+        request(server).get('/')
+            .expect(200)
+            .end((err, res) => {
+                if (err) throw err;
+            });
         done();
     });
+});
+
+describe('highlights route', function () {
+   var server;
+    beforeEach(() => {
+        server = require('../server');
+    });
+
+    afterEach((done) => {
+        server.close(done);
+    });
+   
+   it('should redirect with 302', (done) => {
+        request(server).get('/highlights')
+            .expect(302)
+            .end((err, res) => {
+                if (err) throw err;
+            });
+        done();
+    }) 
 });
