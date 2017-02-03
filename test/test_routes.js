@@ -3,7 +3,6 @@ const request = require('supertest');
 
 env('.test_env')
 process.env.NODE_ENV = 'test';
-const baseUrl = "https://0.0.0.0:8080";
 
 describe('root route', function () {
     var server;
