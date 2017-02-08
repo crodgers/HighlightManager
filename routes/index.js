@@ -71,9 +71,10 @@ var highlights = require('./highlights');
 var highlight = require('./highlight');
 
 function isLoggedIn(req, res, next) {
+        console.log(req.isAuthenticated());
         if (req.isAuthenticated())
             return next();
-        res.redirect('/');
+        res.redirect('/login');
 }
 
 module.exports = (routes, passport) => {

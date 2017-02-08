@@ -1,5 +1,6 @@
 const env = require('node-env-file');
 const session = require('supertest-session');
+const should = require('should');
 
 var testSession = null;
 
@@ -28,7 +29,7 @@ describe('root route', function () {
     });
 });
 
-describe('highlights route', function () {
+describe('unauthorized routes', function () {
     var server;
     beforeEach(() => {
         server = require('../server');
@@ -40,8 +41,18 @@ describe('highlights route', function () {
         testSession = null;
     });
    
-   it('should redirect with 302 if no authorized user', (done) => {
+   it('highlights should redirect with 302 if no authorized user', (done) => {
         testSession.get('/highlights')
+            .expect(302)
+            .expect('Location', '/')
+            .end((err, res) => {
+                if (err) return done(err);
+            });
+        done();
+    });
+    
+    it('highlight should redirect with 302 if no authorized user', (done) => {
+        testSession.get('/highlight/2')
             .expect(302)
             .end((err, res) => {
                 if (err) return done(err);
@@ -50,24 +61,31 @@ describe('highlights route', function () {
     });
 });
 
-describe('highlight route', function () {
-    var server;
-    beforeEach(() => {
-        server = require('../server');
-        testSession = session(server);
-    });
+// describe('authorized routes', function () {
+//     var server;
+//     beforeEach(() => {
+//         server = require('../server');
+//         testSession = session(server, {
+//             before: (req) => {
+//                 req.isAuthenticated = () => {
+//                     return true;
+//                 };
+//             }
+//         });
+//     });
 
-    afterEach((done) => {
-        server.close(done);
-        testSession = null;
-    });
-   
-   it('should redirect with 302 if no authorized user', (done) => {
-        testSession.get('/highlights')
-            .expect(302)
-            .end((err, res) => {
-                if (err) return done(err);
-            });
-        done();
-    });
-});
+//     afterEach((done) => {
+//         server.close(done);
+//         testSession = null;
+//     });
+    
+//     it('should redirect to /highlights if authorized', (done) => {
+//         testSession.get('/highlights')
+//             .expect(200)
+//             .expect('Location', '/highlights')
+//             .end((err, res) => {
+//               if (err) return done(err);
+//             });
+//         done();
+//     });
+// });
